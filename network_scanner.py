@@ -7,7 +7,10 @@ def scan(ip):
     broadcast = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")
     # scapy.ls(scapy.Ether())
     arp_req_broadcast = broadcast/arp_req
-    answerd_list = scapy.srp(arp_req_broadcast, timeout=1, verbose=False)[0]
-    print("answered_list: ", answerd_list.summary())
+    answered_list = scapy.srp(arp_req_broadcast, timeout=1, verbose=False)[0]
+    for answer in answered_list:
+        print("IP Address: " + answer[1].psrc)
+        print("MAC Address: " + answer[1].hwsrc)
+        print("---------------------------------------------------")
 
 scan("10.0.0.1/24")
