@@ -1,5 +1,15 @@
 import scapy.all as scapy
 import requests
+import argparse
+
+
+def get_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--target", dest="target", help="Target IP/IP Range")
+    options = parser.parse_args()
+    if not options.target:
+        parser.error("[-] Please specify a target IP/IP Range, use --help for more info.")
+    return options
 
 
 def scan(ip):
@@ -36,5 +46,6 @@ def print_devices(devices_list):
         print(device["ip"] + "\t\t" + device["mac"] + "\t\t" + device["vendor"])
 
 
-result = scan("10.0.0.1/24")
+options = get_arguments()
+result = scan(options.target)
 print_devices(result)
